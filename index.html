@@ -1,0 +1,84 @@
+<html>
+
+<head>
+    <title>Awesome Movies Compare | Shubhanshu Mishra</title>
+    <style>
+        .container {
+            display: flex;
+            /* or inline-flex */
+            width: 100%;
+            flex: 0 0 100%;
+        }
+
+        .results {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+        <p>Based on Karpathy's <a href="https://twitter.com/karpathy/status/1647421539279851521">Awesome Movies</a></p>
+        <!--   <label for="query">Query</label>
+    <input type="text", id="query" name="query" placeholder="query"/> -->
+        <p>Current Movie ID: <span id="curr_movie_id">7373</span>
+            <input type="button" id="submit" value="Random Movie Id" onclick="random_movie()" />
+        </p>
+        <p>SVM URL: <a href="https://awesome-movies.life/?ranker=svm&emb=ada&rank=sim&ix=7373"
+                id="svm_url">https://awesome-movies.life/?ranker=svm&emb=ada&rank=sim&ix=7373</a></p>
+        <p>KNN URL: <a href="https://awesome-movies.life/?ranker=knn&emb=ada&rank=sim&ix=7373"
+                id="knn_url">https://awesome-movies.life/?ranker=knn&emb=ada&rank=sim&ix=7373</a></p>
+    </div>
+    <div class="container">
+        <div class="results">
+            <h2><a href="https://awesome-movies.life/?ranker=svm&emb=ada&rank=sim&ix=7373">SVM</a></h2>
+            <iframe id="svm" title="SVM" width="100%" height="800"
+                src="https://awesome-movies.life/?ranker=svm&emb=ada&rank=sim&ix=7373">
+            </iframe>
+        </div>
+        <div class="results">
+            <h2><a href="https://awesome-movies.life/?ranker=knn&emb=ada&rank=sim&ix=7373">KNN</a></h2>
+            <iframe id="knn" title="KNN" width="100%" height="800"
+                src="https://awesome-movies.life/?ranker=knn&emb=ada&rank=sim&ix=7373">
+            </iframe>
+        </div>
+    </div>
+
+</body>
+<script>
+    const svm_iframe = document.getElementById("svm");
+    const knn_iframe = document.getElementById("knn");
+    const svm_a = document.getElementById("svm_url");
+    const knn_a = document.getElementById("knn_url");
+    const curr_movie_id_p = document.getElementById("curr_movie_id");
+
+    function getRandomInt(max) {
+        return Math.floor(Math.random() * max);
+    }
+
+    function update() {
+        const svm_url = svm_iframe.src;
+        const knn_url = knn_iframe.src;
+        console.log(`svm_url=${svm_url}`);
+        console.log(`knn_url=${knn_url}`);
+        svm_a.href = svm_url;
+        svm_a.innerHTML = svm_url;
+        knn_a.href = knn_url;
+        knn_a.innerHTML = knn_url;
+    }
+
+    function random_movie() {
+        const movie_id = getRandomInt(11000); // 11K movies in dataset
+        curr_movie_id_p.innerHTML = movie_id;
+        const svm_url = `https://awesome-movies.life/?ranker=svm&emb=ada&rank=sim&ix=${movie_id}`;
+        const knn_url = `https://awesome-movies.life/?ranker=knn&emb=ada&rank=sim&ix=${movie_id}`;
+        svm_iframe.src = svm_url;
+        knn_iframe.src = knn_url;
+
+        update();
+
+    }
+
+</script>
+
+</html>
